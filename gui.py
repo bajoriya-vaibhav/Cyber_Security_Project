@@ -75,8 +75,9 @@ class PasswordManager:
         return score, strength, feedback, color
 
     def hash_password(self, password):
-        # bcrypt automatically generates a unique salt for each password
-        salt = bcrypt.gensalt(rounds=12)  # 12 rounds = 2^12 iterations
+        # Generate salt with 12 rounds (2^12 = 4 ,096 iterations )
+        salt = bcrypt.gensalt(rounds=12) 
+        # Hash password with automatic salt
         hashed = bcrypt.hashpw(password.encode('utf-8'), salt)
         return hashed.decode('utf-8')
 

@@ -8,21 +8,11 @@ import random
 import time
 
 class CustomHasher:
-    """
-    Custom password hashing implementation from scratch
-    Uses a simplified hash function with salt and key stretching
-    """
-
     def __init__(self, iterations=10000):
-        """
-        Initialize the hasher
-        iterations: Number of rounds for key stretching (default: 10000)
-        """
         self.iterations = iterations
         self.salt_length = 16  # 16 bytes of salt
 
     def _generate_salt(self):
-        """Generate a random salt using system randomness"""
         # Use multiple sources of randomness
         random.seed(time.time() * random.random())
         salt = []
@@ -32,18 +22,11 @@ class CustomHasher:
         return bytes(salt)
 
     def _custom_hash_function(self, data):
-        """
-        Custom hash function inspired by SHA-256 principles
-        Implements basic cryptographic hash properties:
-        1. Deterministic (same input = same output)
-        2. Avalanche effect (small change = big difference)
-        3. Fixed output size
-        """
         # Convert data to bytes if string
         if isinstance(data, str):
             data = data.encode('utf-8')
 
-        # Initialize hash values (8 prime numbers)
+        # Initialize with prime numbers
         h = [
             0x6a09e667, 0xbb67ae85, 0x3c6ef372, 0xa54ff53a,
             0x510e527f, 0x9b05688c, 0x1f83d9ab, 0x5be0cd19
@@ -86,10 +69,6 @@ class CustomHasher:
         return result
 
     def _key_stretching(self, password, salt):
-        """
-        Apply key stretching by hashing multiple times
-        This makes brute force attacks much slower
-        """
         # Combine password and salt
         result = password.encode('utf-8') + salt
 
@@ -101,10 +80,6 @@ class CustomHasher:
         return result
 
     def hash_password(self, password):
-        """
-        Hash a password with automatic salt generation
-        Returns: Combined salt and hash as a hex string
-        """
         # Generate random salt
         salt = self._generate_salt()
 
@@ -143,10 +118,6 @@ class CustomHasher:
             return False
 
     def _constant_time_compare(self, a, b):
-        """
-        Compare two byte sequences in constant time
-        Prevents timing attacks
-        """
         if len(a) != len(b):
             return False
 
@@ -226,11 +197,9 @@ class PasswordManager:
         return score, strength, feedback, color
 
     def hash_password(self, password):
-        """Hash password using custom hasher"""
         return self.hasher.hash_password(password)
 
     def verify_password(self, password, hashed_password):
-        """Verify password using custom hasher"""
         return self.hasher.verify_password(password, hashed_password)
 
     def register_user(self, username, password, email=""):
