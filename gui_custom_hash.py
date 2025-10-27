@@ -92,10 +92,6 @@ class CustomHasher:
         return combined
 
     def verify_password(self, password, stored_hash):
-        """
-        Verify a password against a stored hash
-        Returns: True if password matches, False otherwise
-        """
         try:
             # Parse stored hash
             parts = stored_hash.split('$')
@@ -375,8 +371,6 @@ class PasswordManagerGUI:
 
     def show_main_menu(self):
         self.clear_container()
-        # Don't reset current_user here - keep the logged-in state
-
         # Title
         title_frame = tk.Frame(self.main_container, bg='#2C3E50')
         title_frame.pack(pady=20)
